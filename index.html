@@ -17,7 +17,7 @@
         $console = $(".console");
     socket.on("message", function (data) {
       var $message = $("<li></li>").text(data.message);
-      $console.append($message);
+      $console.prepend($message);
     });
   </script>
 </body>
