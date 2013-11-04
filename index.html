@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TSLJS</title>
+  <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>TSLJS</h1>
+    <ul class="console">
+    </ul>
+  </div>
+  <script src="http://code.jquery.com/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect(),
+        $console = $(".console");
+    socket.on("message", function (data) {
+      var $message = $("<li></li>").text(data.message);
+      $console.append($message);
+    });
+  </script>
+</body>
+</html>
