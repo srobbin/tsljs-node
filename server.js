@@ -32,7 +32,10 @@ app.post('/:keyword?', function (req, res) {
   }
 
   io.sockets.emit("all", body);
-  res.end("");
+  res.end(JSON.stringify({
+    status: 1,
+    body: body
+  }));
 });
 
 /* Socket */

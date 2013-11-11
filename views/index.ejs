@@ -51,7 +51,8 @@
       $timestamp.text(nowText);
 
       $.each(data, function(k,v) {
-        $("<li><strong>" + k + "</strong>: " + v + "</li>").appendTo($list);
+        var $li = $("<li></li>").text(v).appendTo($list),
+            $strong = $("<strong></strong>").text(k + ": ").prependTo($li);
       });
 
       $console.prepend($message);
