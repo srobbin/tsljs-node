@@ -18,6 +18,10 @@ app.configure(function () {
 });
 
 /* Site */
+app.get('/github.json', function (req, res) {
+  res.render("github")
+});
+
 app.get('/:keyword?', function(req, res) {
   var title = req.params.keyword || "All";
   res.render('index', { title: title, keyword: title.toLowerCase() })
