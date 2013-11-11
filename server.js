@@ -13,15 +13,26 @@ var allowCrossDomain = function(req, res, next) {
 app.configure(function () {
   app.use(allowCrossDomain);
   app.use(express.bodyParser());
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'ejs')
 });
 
 /* Site */
-app.get('/', function(req, res) {
-  res.sendfile(__dirname + '/index.html');
+app.get('/:keyword?', function(req, res) {
+  var title = req.params.keyword || "All";
+  res.render('index', { title: title, keyword: title.toLowerCase() })
 });
-app.post('/', function (req, res) {
-  io.sockets.emit('message', { message: req.body.message });
-  res.end(req.body.message);
+app.post('/:keyword?', function (req, res) {
+  var body = req.body,
+      keyword = req.params.keyword;
+
+  if (keyword) {
+    io.sockets.emit(keyword, body);
+    body['keyword'] = keyword;
+  }
+
+  io.sockets.emit("all", body);
+  res.end("");
 });
 
 /* Socket */

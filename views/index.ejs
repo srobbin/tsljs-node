@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %> </title>
+  <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet">
+  <style type="text/css">
+    body {
+      font-size: 16px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .console > li {
+      padding: 20px 0;
+      border-bottom: 1px solid #ccc;
+    }
+
+    small {
+      display: block;
+      margin-top: 10px;
+      color: #999;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><%= title %></h1>
+    <ul class="console">
+    </ul>
+  </div>
+  <script src="http://code.jquery.com/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/moment.min.js
+"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect(),
+        $console = $(".console"),
+        keyword = "<%= keyword %>";
+
+    socket.on(keyword, function (data) {
+      var $message = $("<li></li>"),
+          $list = $("<ul class='list'></ul>").appendTo($message),
+          $timestamp = $("<small></small>").appendTo($message),
+          now = +(new Date),
+          nowText = moment(now).format("MMMM Do YYYY, h:mm:ss a (" + now + ")");
+
+      $timestamp.text(nowText);
+
+      $.each(data, function(k,v) {
+        $("<li><strong>" + k + "</strong>: " + v + "</li>").appendTo($list);
+      });
+
+      $console.prepend($message);
+    });
+  </script>
+</body>
+</html>
