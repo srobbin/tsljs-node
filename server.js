@@ -18,8 +18,8 @@ app.configure(function () {
 });
 
 /* Site */
-app.get('/github.json', function (req, res) {
-  res.render("github")
+app.get('/:source.json', function (req, res) {
+  res.render("json/" + req.params.source)
 });
 
 app.get('/:keyword?', function(req, res) {
