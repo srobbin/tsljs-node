@@ -1,7 +1,8 @@
 var express = require('express')
   , app = express()
   , server = require('http').createServer(app)
-  , io = require('socket.io').listen(server);
+  , io = require('socket.io').listen(server)
+  , request = require('request');
 
 //CORS middleware
 var allowCrossDomain = function(req, res, next) {
@@ -18,6 +19,13 @@ app.configure(function () {
 });
 
 /* Site */
+app.get('/geocode', function (req, res) {
+  req.pipe(request({
+    url: 'https://maps.googleapis.com/maps/api/geocode/json',
+    qs: req.query
+  })).pipe(res)
+});
+
 app.get('/:source.json', function (req, res) {
   res.render("json/" + req.params.source)
 });
